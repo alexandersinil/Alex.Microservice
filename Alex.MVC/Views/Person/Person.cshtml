@@ -1,0 +1,73 @@
+﻿
+@{
+    Layout = null;
+}
+
+<table cellpadding="2" cellspacing="2" border="1">
+    <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+    </tr>
+    @foreach (var person in ViewBag.persons)
+    {
+        <tr ondblclick="onDblClick(@person);">
+            <td>
+                <div>@person.Id</div>
+            </td>
+            <td>
+                <div>@person.FirstName</div>
+            </td>
+            <td>
+                <div>@person.LastName</div>
+            </td>
+            <td>
+                <div>@person.Age</div>
+            </td>
+        </tr>
+    }
+</table>
+
+<tr>
+    <td>
+        <input type="text" name="firstname" value="" />
+    </td>
+    <td>
+        <input type="text" name="lastname" value="" />
+    </td>
+    <td>
+        <input type="text" name="age" value="" />
+    </td>
+</tr>
+
+<input class="btn btn-primary" name="submitButton" id="btnAdd" value="Add Person" type="button">
+@section Scripts
+{   
+    <script type="text/javascript">
+        $(function () {
+            $("#btnAdd").click(function () {
+            alert("123");         
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddPerson", "Person")',
+                data: {
+                    firstname: $("#firstname").val(),
+                    lastname: $("#lastname").val(),
+                    age: $("#age").val()
+                },
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function () {
+                   alert("Data has been added successfully.");
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+            return false;
+            });
+        });
+    </script>
+}
+
